@@ -8,4 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 声波动画-->
+    <declare-styleable name="SoundWaveView">
+        <!-- 声波线条宽度-->
+        <attr name="lineWidth" format="dimension" />
+        <!-- 声波线条颜色1-->
+        <attr name="lineTopColor" format="color" />
+        <!-- 声波线条颜色2-->
+        <attr name="lineBottomColor" format="color" />
+        <!-- 最大声波值-->
+        <attr name="maxVolume" format="integer" />
+        <!-- 声波类型-->
+        <attr name="waveStyle" format="enum">
+            <enum name="doubleLine" value="0" />
+            <enum name="singleLine" value="1" />
+        </attr>
+    </declare-styleable>
+
 </resources>
