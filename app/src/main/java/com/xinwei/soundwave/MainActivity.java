@@ -2,6 +2,8 @@ package com.xinwei.soundwave;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.xinwei.soundwave.view.SoundWaveView;
 
@@ -13,6 +15,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SoundWaveView mSoundWaveView;
 
+    private Button mChangeBtn;
+
+    private boolean mIsStop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mSoundWaveView = (SoundWaveView) findViewById(R.id.sound_wave_surface_view);
+        mChangeBtn = (Button) findViewById(R.id.change_btn);
+        mSoundWaveView = (SoundWaveView) findViewById(R.id.sound_wave_view);
+
+        mChangeBtn.setOnClickListener(mClickListener);
     }
 
     private void initData() {
@@ -41,10 +50,30 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Thread.sleep(50);
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                 }
             }
         }).start();
     }
+
+    private View.OnClickListener mClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.change_btn:
+                    mIsStop = !mIsStop;
+                    if (mIsStop) {
+                        mSoundWaveView.stop();
+                        mChangeBtn.setText("开始");
+                    } else {
+                        mSoundWaveView.start();
+                        mChangeBtn.setText("暂停");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

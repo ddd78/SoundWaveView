@@ -170,7 +170,7 @@ public class SoundWaveView extends SurfaceView implements SurfaceHolder.Callback
             if (volume > mMaxVolume) {
                 volume = mMaxVolume;
             }
-            mWaveA = (mWaveA + (float) (WAVE_AMPLITUDE * (0.2 + 0.8 * volume / mMaxVolume))) / 2f;
+            mWaveA = (mWaveA + (float) (WAVE_AMPLITUDE * (0.2 + 0.8 * volume / mMaxVolume))) / 2f;//为保证波形的最小振幅不为零而作了换算
         }
 
         double deltaT = ((System.currentTimeMillis() - mBeginTime)) * WAVE_OMEGA;
@@ -211,14 +211,20 @@ public class SoundWaveView extends SurfaceView implements SurfaceHolder.Callback
             while (!mIsStop) {
                 synchronized (mSurfaceLock) {
                     if (mIsRun) {
+                        Canvas canvas = null;
                         try {
-                            Canvas canvas = mHolder.lockCanvas();
-                            if (canvas != null) {
-                                doDraw(canvas); //这里做真正绘制的事情
-                                mHolder.unlockCanvasAndPost(canvas);
+                            canvas = mHolder.lockCanvas();//锁定画布
+                            if (null != canvas) {
+                                doDraw(canvas); //真正绘制
+
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
+
+                        } finally {
+                            if (null != canvas) {
+                                mHolder.unlockCanvasAndPost(canvas);//结束锁定画图，并提交改变
+                            }
                         }
                     }
                 }
